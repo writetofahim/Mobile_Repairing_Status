@@ -4,6 +4,7 @@ import { MdDoneOutline, MdIncompleteCircle } from "react-icons/md";
 import { toast } from "react-toastify";
 import Button from "../../components/button/button";
 import PrintArea from "../../components/printArea/PrintArea";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Status = () => {
   const [working, setWorking] = useState(false);
@@ -96,12 +97,23 @@ const Status = () => {
       initialRender.current = false;
       return;
     }
-    const post = {
-      customerId: inputValue,
+    const status = {
+      phone: inputValue,
       status: [{ working: working }, { almost: almost }, { done: done }],
     };
-    console.log(post);
+    console.log(status);
+    const postStatus = async () => {
+      // const res = await axiosInstance.post("/status");
+      // console.log(res.data);
+      try {
+        const response = await axiosInstance.post("/status", { status });
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    postStatus();
     // posting/updating
     // if customer id is already exists then update else post
 
