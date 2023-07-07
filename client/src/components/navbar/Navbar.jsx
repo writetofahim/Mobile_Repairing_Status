@@ -39,11 +39,15 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div onClick={() => setShowMobileMenu(!showMobileMenu)}>x</div>
-
       {/* mobile nav */}
       <div
-        className={`bg-blue-200  absolute top-12 transition-all ease-in-out  duration-500 backdrop-blur-2xl h-screen z-20 w-60 p-5 ${
+        className="md:hidden block"
+        onClick={() => setShowMobileMenu(!showMobileMenu)}
+      >
+        x
+      </div>
+      <div
+        className={`hidden bg-blue-200  absolute top-12 transition-all ease-in-out  duration-500 backdrop-blur-2xl h-screen z-20 w-60 p-5 ${
           showMobileMenu ? "right-0" : "-right-60"
         }`}
       >

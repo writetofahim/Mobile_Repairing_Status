@@ -2,10 +2,10 @@ const Status = require("../models/Status");
 
 const getAllStatus = async (req, res) => {
   try {
-    const status = await Status.find();
+    const statusData = await Status.find();
     return res.status(200).json({
       success: true,
-      status,
+      statusData,
     });
   } catch (error) {
     console.log(error.message);
@@ -18,15 +18,15 @@ const getAllStatus = async (req, res) => {
 
 const addStatus = async (req, res) => {
   try {
-    const { phone, status } = req.body;
+    const { customerId, status } = req.body;
     const newStatus = new Status({
-      phone,
+      customerId,
       status,
     });
 
-    const existingPhone = await Status.findOne({ phone });
-    console.log(existingPhone);
-    if (existingPhone) {
+    const existingCustomer = await Status.findOne({ customerId });
+    console.log(existingCustomer);
+    if (existingCustomer) {
       return res
         .status(400)
         .json({ success: false, message: "This customer is already exists" });
@@ -46,7 +46,41 @@ const addStatus = async (req, res) => {
     });
   }
 };
+
+const updateStatus = async (req, res) => {
+  const body = req.body;
+  const customerId = body.customerId;
+  const update = req.body;
+  console.log(update);
+  try {
+    const updateStatus = await Status.findOneAndUpdate(
+      { customerId: customerId },
+      update,
+      { new: true }
+    );
+    if (!updateStatus) {
+      console.log("Status not found");
+      return res.status(404).json({
+        success: false,
+        message: "Status not found",
+      });
+    }
+
+    console.log("Updated successfully");
+    return res.status(200).json({
+      success: true,
+      updateStatus,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllStatus,
   addStatus,
+  updateStatus,
 };

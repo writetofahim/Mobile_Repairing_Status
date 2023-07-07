@@ -4,6 +4,7 @@ const statusController = require("../controllers/Status");
 
 route.post("/", statusController.addStatus);
 route.get("/", statusController.getAllStatus);
+route.put("/", statusController.updateStatus);
 // route.get('/:id', statusController.getStatusById)
 
 module.exports = route;
