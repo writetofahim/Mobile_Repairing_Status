@@ -4,6 +4,7 @@ import { MdDoneOutline, MdIncompleteCircle } from "react-icons/md";
 import { toast } from "react-toastify";
 import Button from "../../components/button/button";
 import PrintArea from "../../components/printArea/PrintArea";
+import Table from "../../components/table/Table";
 import axiosInstance from "../../utils/axiosInstance";
 import { postStatus, updateStatus } from "./functions";
 
@@ -389,7 +390,7 @@ const Status = () => {
       </div>
 
       {/* search data */}
-      <div className="print:hidden border mt-5 flex flex-col justify-center items-center">
+      <div className="print:hidden border-t pt-3 mt-5 flex flex-col justify-center items-center">
         <div>
           <input
             type="text"
@@ -402,25 +403,7 @@ const Status = () => {
 
         {/* showing fetched data */}
         <div>
-          <table>
-            <thead>
-              <tr>
-                <th className="border px-5">Customer ID</th>
-                <th className="border px-5">Status</th>
-                <th className="border px-5">Invoice</th>
-              </tr>
-            </thead>
-            <tbody>
-              {foundStatus &&
-                foundStatus.map((fs, i) => (
-                  <tr key={i} className="">
-                    <td className="border px-2">{fs?.customerId}</td>
-                    <td className="border px-2">{fs?.status?.toUpperCase()}</td>
-                    <td className="border px-2"></td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <Table tableData={foundStatus} />
         </div>
       </div>
 
