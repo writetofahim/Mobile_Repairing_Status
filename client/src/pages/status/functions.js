@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../utils/axiosInstance";
 
 export const updateStatus = async (obj) => {
+  console.log(obj);
   try {
     const response = await axiosInstance.put("/status", obj);
     toast.success("Update successfully");

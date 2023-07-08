@@ -21,7 +21,7 @@ const Status = () => {
   const [rows, setRows] = useState([{ id: 2, partsName: "", price: "-" }]);
   const [searchValue, setSearchValue] = useState("");
   const [statusData, setStatusData] = useState({});
-  const [foundStatus, setFoundStatus] = useState({});
+  const [foundStatus, setFoundStatus] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // fetching all status
   useEffect(() => {
@@ -29,12 +29,14 @@ const Status = () => {
       try {
         const res = await axiosInstance.get("/status");
         setStatusData(res.data);
+        const reversedStatusData = res.data.statusData.reverse();
+        setFoundStatus(reversedStatusData);
       } catch (error) {
         console.log(error.message);
       }
     };
     getAllStatus();
-  }, []);
+  }, [isLoading]);
 
   // calculate total
   useEffect(() => {
@@ -52,17 +54,7 @@ const Status = () => {
     };
     setTotal(calculate(array));
   }, [invoiceData]);
-  // making object for post or update
-  const obj = {
-    customerId: inputValue,
-    status: working
-      ? "working"
-      : almost
-      ? "almost"
-      : done
-      ? "done"
-      : "In the queue",
-  };
+
   // status set in ui
   const handleSubmit = (status) => {
     if (inputValue.length < 4) {
@@ -70,58 +62,57 @@ const Status = () => {
     } else {
       setInputLock(true);
 
-      if (statusData.statusData?.find((sd) => sd.customerId == inputValue)) {
-        const getResponse = async () => {
-          setIsLoading(true);
-          const updateRes = await updateStatus(obj);
-          setIsLoading(false);
-
-          if (status === "working") {
-            setAlmost(false);
-            setDone(false);
-            setWorking(true);
-          } else if (status === "almost") {
-            setAlmost(true);
-            setDone(false);
-            setWorking(false);
-          } else if (status === "done") {
-            setAlmost(false);
-            setDone(true);
-            setWorking(false);
-          } else {
-            // setInputLock(true);
-            // setWorking(true);
-          }
-        };
-        getResponse();
+      if (status == "working") {
+        setAlmost(false);
+        setDone(false);
+        setWorking(true);
+      } else if (status == "almost") {
+        setAlmost(true);
+        setDone(false);
+        setWorking(false);
+      } else if (status == "done") {
+        setAlmost(false);
+        setDone(true);
+        setWorking(false);
       } else {
-        const getResponse = async () => {
-          setIsLoading(true);
-          const postRes = await postStatus(obj);
-          setIsLoading(false);
-
-          if (status === "working") {
-            setAlmost(false);
-            setDone(false);
-            setWorking(true);
-          } else if (status === "almost") {
-            setAlmost(true);
-            setDone(false);
-            setWorking(false);
-          } else if (status === "done") {
-            setAlmost(false);
-            setDone(true);
-            setWorking(false);
-          } else {
-            // setInputLock(true);
-            // setWorking(true);
-          }
-        };
-        getResponse();
+        // setInputLock(true);
+        // setWorking(true);
       }
     }
   };
 
+  // handle submit
+  useEffect(() => {
+    // making object for post or update
+    const obj = {
+      customerId: inputValue,
+      status: working
+        ? "working"
+        : almost
+        ? "almost"
+        : done
+        ? "done"
+        : "In the queue",
+    };
+    if (!inputValue) {
+      return;
+    }
+    if (statusData.statusData?.find((sd) => sd.customerId == inputValue)) {
+      const getResponse = async () => {
+        setIsLoading(true);
+        const updateRes = await updateStatus(obj);
+        setIsLoading(false);
+      };
+      getResponse();
+    } else {
+      const getResponse = async () => {
+        setIsLoading(true);
+        const postRes = await postStatus(obj);
+        setIsLoading(false);
+      };
+      getResponse();
+    }
+  }, [working, almost, done]);
   const inputRef = useRef(null);
 
   const handleAddRow = () => {
@@ -161,15 +152,16 @@ const Status = () => {
 
     console.log(invoiceData);
   };
-  console.log(statusData);
+
   // search by search value data
   useEffect(() => {
-    const foundData = statusData?.statusData?.find(
-      (statusObj) => statusObj.customerId === searchValue
+    const foundData = statusData?.statusData?.filter(
+      (statusObj) =>
+        statusObj?.customerId?.includes(searchValue) ||
+        statusObj?.status?.includes(searchValue.toLowerCase())
     );
     setFoundStatus(foundData);
-  }, [searchValue]);
-
+  }, [searchValue, working, almost, done]);
   return (
     <div className="mt-5 relative">
       <div
@@ -403,7 +395,7 @@ const Status = () => {
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Search Customer's phn. no."
+            placeholder="Phn. no. or Status"
             className=" border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-500"
           />
         </div>
@@ -419,11 +411,14 @@ const Status = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                {}
-                <td>{foundStatus?.customerId}</td>
-                <td>{foundStatus?.status?.toUpperCase()}</td>
-              </tr>
+              {foundStatus &&
+                foundStatus.map((fs, i) => (
+                  <tr key={i} className="">
+                    <td className="border px-2">{fs?.customerId}</td>
+                    <td className="border px-2">{fs?.status?.toUpperCase()}</td>
+                    <td className="border px-2"></td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
