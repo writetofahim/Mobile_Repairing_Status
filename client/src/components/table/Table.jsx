@@ -34,7 +34,7 @@ const Table = ({ tableData }) => {
               <tr key={i} className="">
                 <td className="border px-2">{fs?.customerId}</td>
                 <td className="border px-2">{fs?.status?.toUpperCase()}</td>
-                <td className="border px-2"></td>
+                <td className="border px-2">{fs?.invoice ? "Invoice" : ""}</td>
               </tr>
             ))}
         </tbody>

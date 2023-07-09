@@ -15,7 +15,6 @@ export const updateStatus = async (obj) => {
 export const postStatus = async (obj) => {
   try {
     const response = await axiosInstance.post("/status", obj);
-    console.log(response.data);
     toast.success("Posting successfully");
   } catch (error) {
     console.log(error);

@@ -17,11 +17,13 @@ const getAllStatus = async (req, res) => {
 };
 
 const addStatus = async (req, res) => {
+  console.log(req.body);
   try {
-    const { customerId, status } = req.body;
+    const { customerId, status, invoice } = req.body;
     const newStatus = new Status({
       customerId,
       status,
+      invoice,
     });
 
     const existingCustomer = await Status.findOne({ customerId });

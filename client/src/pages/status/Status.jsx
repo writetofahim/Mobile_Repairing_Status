@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GiSolderingIron } from "react-icons/gi";
 import { MdDoneOutline, MdIncompleteCircle } from "react-icons/md";
 import { toast } from "react-toastify";
+import { ModalContext } from "../../App";
 import Button from "../../components/button/button";
 import PrintArea from "../../components/printArea/PrintArea";
 import Table from "../../components/table/Table";
@@ -94,6 +95,7 @@ const Status = () => {
         : done
         ? "done"
         : "In the queue",
+      // invoice: invoiceData,
     };
     if (!inputValue) {
       return;
@@ -114,6 +116,7 @@ const Status = () => {
       getResponse();
     }
   }, [working, almost, done]);
+
   const inputRef = useRef(null);
 
   const handleAddRow = () => {
@@ -144,14 +147,36 @@ const Status = () => {
     updateRows(updatedRowss);
   };
   const handleSaveInvoice = () => {
-    const invoice = {
+    // const invoice = {
+    //   customerId: inputValue,
+    //   invoiceData: invoiceData,
+    // };
+    // making object for post or update
+    const obj = {
       customerId: inputValue,
-      invoiceData: invoiceData,
+      status: working
+        ? "working"
+        : almost
+        ? "almost"
+        : done
+        ? "done"
+        : "In the queue",
+      invoice: invoiceData,
     };
-    console.log(invoice);
-    toast.success("Invoiced saved");
 
-    console.log(invoiceData);
+    if (
+      inputValue &&
+      statusData.statusData?.find((sd) => sd.customerId == inputValue)
+    ) {
+      const getResponse = async () => {
+        setIsLoading(true);
+        const updateRes = await updateStatus(obj);
+        setIsLoading(false);
+      };
+      getResponse();
+    } else {
+      toast.error("Customer should be exist");
+    }
   };
 
   // search by search value data
@@ -163,6 +188,9 @@ const Status = () => {
     );
     setFoundStatus(foundData);
   }, [searchValue, working, almost, done]);
+  const modal = useContext(ModalContext);
+  console.log(modal);
+  console.log("first");
   return (
     <div className="mt-5 relative">
       <div
@@ -191,7 +219,7 @@ const Status = () => {
       </div>
       <div className="print:hidden block">
         {/* status */}
-        <div className="border-b pb-3 flex flex-col items-center">
+        <div className=" pb-3 flex flex-col items-center">
           {/* customer phone number */}
           <div>
             <label htmlFor="">Customer's phn. no: </label>
