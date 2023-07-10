@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import TableModal from "../modal/TableModal";
 
 const Table = ({ tableData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [invoice, setInvoice] = useState({});
 
   // total page
   const totalPages = Math.ceil(tableData?.length / rowsPerPage);
@@ -18,8 +21,17 @@ const Table = ({ tableData }) => {
     setCurrentPage(pageNumber);
   };
 
+  const handleShowInvoice = (invoice) => {
+    setIsModalOpen(true);
+    setInvoice(invoice);
+  };
   return (
     <div className="mt-3">
+      <TableModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={invoice}
+      />
       <table>
         <thead>
           <tr>
@@ -34,7 +46,12 @@ const Table = ({ tableData }) => {
               <tr key={i} className="">
                 <td className="border px-2">{fs?.customerId}</td>
                 <td className="border px-2">{fs?.status?.toUpperCase()}</td>
-                <td className="border px-2">{fs?.invoice ? "Invoice" : ""}</td>
+                <td
+                  className="border px-2 underline cursor-pointer text-blue-400 hover:text-blue-600 text-center"
+                  onClick={() => handleShowInvoice(fs.invoice)}
+                >
+                  {fs?.invoice ? "Invoice" : ""}
+                </td>
               </tr>
             ))}
         </tbody>

@@ -1,7 +1,6 @@
 import React from "react";
 
 const PrintArea = ({ printData, total }) => {
-  console.log(printData);
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2">
       <div className="text-center">
@@ -35,8 +34,8 @@ const PrintArea = ({ printData, total }) => {
               </tr>
             ))}
             <tr>
-              <td>-</td>
-              <td className="font-semibold">Total</td>
+              <td className="border">-</td>
+              <td className="font-semibold border">Total</td>
               <td className="border text-left px-2">{total}</td>
             </tr>
           </tbody>

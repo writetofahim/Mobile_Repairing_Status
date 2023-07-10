@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GiSolderingIron } from "react-icons/gi";
 import { MdDoneOutline, MdIncompleteCircle } from "react-icons/md";
 import { toast } from "react-toastify";
-import { ModalContext } from "../../App";
 import Button from "../../components/button/button";
 import PrintArea from "../../components/printArea/PrintArea";
 import Table from "../../components/table/Table";
@@ -188,11 +187,9 @@ const Status = () => {
     );
     setFoundStatus(foundData);
   }, [searchValue, working, almost, done]);
-  const modal = useContext(ModalContext);
-  console.log(modal);
-  console.log("first");
   return (
     <div className="mt-5 relative">
+      {/* loading */}
       <div
         className={`absolute -top-12 left-1/2 ${
           isLoading ? "block" : "hidden"
@@ -217,6 +214,7 @@ const Status = () => {
         </svg>
         <span className="sr-only">Loading...</span>
       </div>
+
       <div className="print:hidden block">
         {/* status */}
         <div className=" pb-3 flex flex-col items-center">
