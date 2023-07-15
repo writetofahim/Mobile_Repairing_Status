@@ -4,15 +4,12 @@ import Navbar from "../../components/navbar/Navbar";
 const Main = () => {
   return (
     <>
-      <div className="main container mx-auto relative">
-        {/* nav */}
-        <div className=" nav z-20 left-0 right-0 top-0 print:hidden block ">
-          <Navbar />
-        </div>
+      <Navbar />
+      <div className="w-[30%] h-96 bg-yellow-200 absolute left-0 top-16 -z-10 print:hidden block"></div>
+      <div className="w-[30%] h-96 bg-blue-100 absolute right-0 bottom-0 -z-10 print:hidden block"></div>
 
-        <div className="h-screen pt-16">
-          <Outlet />
-        </div>
+      <div className="backdrop-blur-2xl relative h-[calc(100vh-0px)] w-screen overflow-x-scroll  bg-gradient-to-b from-slate-50 to-slate-200/50 pt-20">
+        <Outlet />
       </div>
 
       {/* modal */}

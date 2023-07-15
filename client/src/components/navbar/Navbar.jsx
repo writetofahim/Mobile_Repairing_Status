@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { BiMenu } from "react-icons/bi";
 import { CiLogin } from "react-icons/ci";
+import { RxCross2 } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
@@ -10,52 +12,77 @@ const Navbar = () => {
     { id: 3, menu: "About", path: "/about" },
   ];
   return (
-    <div className=" z-20 flex justify-between items-center h-16 md:px-16 px-5 ">
-      {/* logo */}
-      <div className="">
-        <span>Logo</span>
-      </div>
+    <div className="fixed print:hidden top-0 z-40 border-b bg-slate-50/50 backdrop-blur-2xl w-full">
+      {/* desktop */}
+      <div className="container md:flex hidden   mx-auto justify-between items-center h-16 md:px-16 px-5 ">
+        {/* logo */}
+        <div className="">
+          <span>Logo</span>
+        </div>
 
-      {/* nav and others */}
-      <div className="md:flex gap-5 hidden">
-        {/* nav */}
-        <nav>
-          <ul className="flex gap-5">
-            {menus.map(({ menu, path }, i) => (
-              <li key={i} className="">
-                <NavLink to={path}>{menu}</NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* nav and others */}
+        <div className="md:flex gap-5">
+          {/* nav */}
+          <nav>
+            <ul className="flex gap-5">
+              {menus.map(({ menu, path }, i) => (
+                <li key={i} className="">
+                  <NavLink
+                    to={path}
+                    className={({ isActive }) =>
+                      isActive ? "text-green-500" : ""
+                    }
+                  >
+                    {menu}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        {/* others */}
-        <div
-          className="border-l pl-4 flex gap-1
+          {/* others */}
+          <div
+            className="border-l pl-4 flex gap-1
          items-center"
-        >
-          <CiLogin className="text-lg" />
-          <span>Login</span>
+          >
+            <CiLogin className="text-lg" />
+            <NavLink
+              to={"/login"}
+              className={({ isActive }) => (isActive ? "text-green-500" : "")}
+            >
+              <span>Login</span>
+            </NavLink>
+          </div>
         </div>
       </div>
 
       {/* mobile nav */}
-      <div
-        className="md:hidden block"
-        onClick={() => setShowMobileMenu(!showMobileMenu)}
-      >
-        x
+      <div className="md:hidden flex justify-between items-center h-16 px-5">
+        <div
+          onClick={() => setShowMobileMenu(!showMobileMenu)}
+          className="text-3xl"
+        >
+          {showMobileMenu ? <RxCross2 /> : <BiMenu />}
+        </div>
+        <div>Logo</div>
       </div>
       <div
-        className={`hidden bg-blue-200  absolute top-12 transition-all ease-in-out  duration-500 backdrop-blur-2xl h-screen z-20 w-60 p-5 ${
-          showMobileMenu ? "right-0" : "-right-60"
+        className={` bg-blue-100 backdrop-blur-2xl absolute top-16 transition-all ease-in-out  duration-300 h-screen z-20 w-60 p-5  ${
+          showMobileMenu ? "translate-x-0" : "-translate-x-60"
         }`}
       >
         <nav className="">
           <ul className="flex flex-col gap-5 text-lg">
             {menus.map(({ menu, path }, i) => (
               <li key={i} className="text-center">
-                <NavLink to={path}>{menu}</NavLink>
+                <NavLink
+                  to={path}
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500" : ""
+                  }
+                >
+                  {menu}
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -64,9 +91,14 @@ const Navbar = () => {
         {/* others */}
         <div
           className="flex gap-1
-         items-center justify-center text-lg mt-5"
+         items-center justify-center text-lg mt-5 cursor-pointer"
         >
-          <span>Login</span>
+          <NavLink
+            to={"/login"}
+            className={({ isActive }) => (isActive ? "text-green-500" : "")}
+          >
+            <span>Login</span>
+          </NavLink>
           <CiLogin className="text-lg" />
         </div>
       </div>

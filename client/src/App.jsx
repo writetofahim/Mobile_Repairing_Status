@@ -1,10 +1,11 @@
-import { createContext } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Test from "./Test";
 import Main from "./layout/main/Main";
+import About from "./pages/about/About";
 import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
 import Status from "./pages/status/Status";
 
 const router = createBrowserRouter([
@@ -14,6 +15,8 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/status", element: <Status /> },
+      { path: "/login", element: <Login /> },
+      { path: "/about", element: <About /> },
     ],
   },
   {
@@ -22,19 +25,11 @@ const router = createBrowserRouter([
   },
 ]);
 
-export const ModalContext = createContext();
-const modalData = "This is a modal data";
 const App = () => {
   return (
     <>
       <ToastContainer />
-      <div className="w-[30%] h-96 bg-blue-100 absolute left-0 top-0 -z-10 print:hidden block"></div>
-      <div className="w-[30%] h-96 bg-gray-100 absolute right-0 bottom-0 -z-10 print:hidden block"></div>
-      <div className="backdrop-blur-2xl">
-        <ModalContext.Provider value={modalData}>
-          <RouterProvider router={router} />
-        </ModalContext.Provider>
-      </div>
+      <RouterProvider router={router} />
     </>
   );
 };
