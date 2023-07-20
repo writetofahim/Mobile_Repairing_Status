@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContexts";
 
 const Login = () => {
@@ -8,14 +8,16 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(formData);
+    await login(formData);
+    navigate(-1);
   };
   return (
     <>
