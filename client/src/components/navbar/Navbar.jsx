@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiMenu } from "react-icons/bi";
-import { CiLogin } from "react-icons/ci";
+import { CiLogin, CiLogout } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContexts";
 
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { logout } = useContext(AuthContext);
+  const value = localStorage.getItem("user");
+  const user = JSON.parse(value);
+
   const menus = [
     { id: 1, menu: "Home", path: "/" },
     { id: 2, menu: "Status", path: "/status" },
     { id: 3, menu: "About", path: "/about" },
   ];
+
   return (
     <div className="fixed print:hidden top-0 z-40 border-b bg-slate-50/50 backdrop-blur-2xl w-full">
       {/* desktop */}
@@ -45,12 +51,25 @@ const Navbar = () => {
             className="border-l pl-4 flex gap-1
          items-center"
           >
-            <CiLogin className="text-lg" />
+            {/* <CiLogin className="text-lg" /> */}
             <NavLink
-              to={"/login"}
-              className={({ isActive }) => (isActive ? "text-green-500" : "")}
+              onClick={user ? logout : null}
+              to={user ? "#" : "/login"}
+              // className={({ isActive }) => (isActive ? "text-green-500" : "")}
             >
-              <span>Login</span>
+              <span className="flex justify-center items-center gap-1">
+                {user ? (
+                  <>
+                    <CiLogout className="text-xl" />
+                    {user.fullName}
+                  </>
+                ) : (
+                  <>
+                    <CiLogin className="text-xl" />
+                    Login
+                  </>
+                )}
+              </span>
             </NavLink>
           </div>
         </div>
