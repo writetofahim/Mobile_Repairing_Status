@@ -14,6 +14,7 @@ const Status = () => {
   const [done, setDone] = useState(false);
   const [inputLock, setInputLock] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [customerId, setCustomerId] = useState("");
   const [total, setTotal] = useState(0);
   const [invoiceData, setInvoiceData] = useState({
     serviceCharge: "",
@@ -24,6 +25,7 @@ const Status = () => {
   const [statusData, setStatusData] = useState({});
   const [foundStatus, setFoundStatus] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [invoice, setInvoice] = useState({});
   // fetch from local storage
   const value = localStorage.getItem("user");
   const user = JSON.parse(value);
@@ -191,7 +193,25 @@ const Status = () => {
     setFoundStatus(foundData);
   }, [searchValue, working, almost, done]);
   // this is for test invoice for users
-  const data = foundStatus?.[2]?.invoice;
+  // const data = foundStatus?.[2]?.invoice;
+  const handleCheckStatus = async ({ key }) => {
+    if (key === "Enter") {
+      try {
+        const res = await axiosInstance.get(`/status/${customerId}`);
+        console.log(res.data);
+        const status = res.data.status;
+        status == "working"
+          ? setWorking(true)
+          : status == "almost"
+          ? setAlmost(true)
+          : setDone(true);
+        setInvoice(res.data?.invoice);
+      } catch (error) {
+        console.log(error.response.message);
+        toast.error(error.response.data.message);
+      }
+    }
+  };
   return (
     <>
       {user?.role === "admin" ? (
@@ -471,9 +491,11 @@ const Status = () => {
                 <label htmlFor="phone">Phone number: </label>
                 <input
                   type="text"
+                  value={customerId}
                   placeholder="ex: +393xxxxxxxxx"
                   className=" h-10 p-2 border rounded"
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={(e) => setCustomerId(e.target.value)}
+                  onKeyDown={handleCheckStatus}
                 />
               </div>
               <p className="text-xs w-72 text-center">
@@ -566,9 +588,11 @@ const Status = () => {
                       <tr>
                         <td className="border px-2">1</td>
                         <td className="border px-2">Service Charge</td>
-                        <td className="border px-2">{data?.serviceCharge}</td>
+                        <td className="border px-2">
+                          {invoice?.serviceCharge}
+                        </td>
                       </tr>
-                      {data?.rows.map((row) => (
+                      {invoice?.rows?.map((row) => (
                         <tr key={row.id}>
                           <td className="border px-2">{row.id}</td>
                           <td className="border px-2">{row.partsName}</td>

@@ -1,12 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 const About = () => {
-  const navigate = useNavigate();
+  const handleCheck = (e) => {
+    console.log(e.key);
+  };
   return (
     <div>
       hello about
-      <button onClick={() => navigate(-1)}>go back</button>
+      <input type="text" onKeyDown={handleCheck} />
     </div>
   );
 };

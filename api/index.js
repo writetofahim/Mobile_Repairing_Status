@@ -5,7 +5,7 @@ const port = 3000;
 const hostname = "127.0.0.1";
 
 mongoose.connect(
-  "mongodb+srv://writetofahimahammad:Jm0ohvffVJwHCNji@taibuldb.puc4tok.mongodb.net/?retryWrites=true&w=majority",
+  "mongodb+srv://writetofahimahammad:PxcR1TxzXDFsitxd@taibuldb.puc4tok.mongodb.net/?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

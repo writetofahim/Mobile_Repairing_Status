@@ -16,6 +16,29 @@ const getAllStatus = async (req, res) => {
   }
 };
 
+const getStatusWithNumber = async (req, res) => {
+  try {
+    const statusData = await Status.findOne(req.params);
+
+    if (!statusData) {
+      return res.status(404).json({
+        success: false,
+        message: "There is no service status available at the moment.",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      status: statusData?.status || "",
+      invoice: statusData?.invoice || {},
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get status",
+    });
+  }
+};
 const addStatus = async (req, res) => {
   console.log(req.body);
   try {
@@ -83,6 +106,7 @@ const updateStatus = async (req, res) => {
 
 module.exports = {
   getAllStatus,
+  getStatusWithNumber,
   addStatus,
   updateStatus,
 };
