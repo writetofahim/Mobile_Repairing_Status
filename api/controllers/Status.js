@@ -5,13 +5,13 @@ const getAllStatus = async (req, res) => {
     const statusData = await Status.find();
     return res.status(200).json({
       success: true,
-      statusData,
+      data: statusData,
     });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
       success: false,
-      message: "Failed to get status",
+      message: "Check your connection and try again",
     });
   }
 };
@@ -35,7 +35,7 @@ const getStatusWithNumber = async (req, res) => {
     console.log(error);
     return res.status(500).json({
       success: false,
-      message: "Failed to get status",
+      message: "Check your connection and try again",
     });
   }
 };
@@ -67,7 +67,7 @@ const addStatus = async (req, res) => {
     console.log(error.message);
     return res.status(500).json({
       success: false,
-      message: "Failed to Status",
+      message: "Check your connection and try again",
     });
   }
 };
@@ -94,11 +94,13 @@ const updateStatus = async (req, res) => {
     console.log("Updated successfully");
     return res.status(200).json({
       success: true,
+      message: "Updated successfully",
       updateStatus,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
+      message: "Check your connection and try again",
       error: error.message,
     });
   }

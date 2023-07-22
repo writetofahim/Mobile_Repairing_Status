@@ -1,13 +1,12 @@
 import React from "react";
-
+import Test from "./Test";
+const handleStatusClick = (status) => {
+  console.log(status);
+};
 const About = () => {
-  const handleCheck = (e) => {
-    console.log(e.key);
-  };
   return (
     <div>
-      hello about
-      <input type="text" onKeyDown={handleCheck} />
+      <Test handleStatusClick={handleStatusClick} />
     </div>
   );
 };
