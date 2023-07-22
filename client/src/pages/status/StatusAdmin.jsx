@@ -30,7 +30,6 @@ const StatusAdmin = ({
   const [status, setStatus] = useState("");
   const [isInitialRender, setIsInitialRender] = useState(true);
   const [isDisable, setIsDisable] = useState(true);
-  const [localStorageData, setLocalStorageData] = useState({});
 
   const inputRef = useRef(null);
   const inputRefService = useRef(null);
@@ -38,22 +37,22 @@ const StatusAdmin = ({
   useEffect(() => {
     const data = localStorage.getItem("statusData");
     const localStorageData = JSON.parse(data);
-    console.log(localStorageData);
-    // setLocalStorageData(localStorageData);
-    const { customerId, status } = localStorageData;
-    setInputValue(customerId);
-    if (status === "working") {
-      setWorking(true);
-      setAlmost(false);
-      setDone(false);
-    } else if (status === "almost") {
-      setWorking(false);
-      setAlmost(true);
-      setDone(false);
-    } else {
-      setWorking(false);
-      setAlmost(false);
-      setDone(true);
+    if (localStorageData) {
+      const { customerId, status } = localStorageData;
+      setInputValue(customerId);
+      if (status === "working") {
+        setWorking(true);
+        setAlmost(false);
+        setDone(false);
+      } else if (status === "almost") {
+        setWorking(false);
+        setAlmost(true);
+        setDone(false);
+      } else {
+        setWorking(false);
+        setAlmost(false);
+        setDone(true);
+      }
     }
   }, []);
 
