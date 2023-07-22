@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 const app = require("./app");
-
+require("dotenv").config();
 const port = 3000;
 const hostname = "127.0.0.1";
 
-mongoose.connect(
-  "mongodb+srv://writetofahimahammad:PxcR1TxzXDFsitxd@taibuldb.puc4tok.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 mongoose.connection.on("connected", () => {
   console.log("Connected to mongodb atlas");
