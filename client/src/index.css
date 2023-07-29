@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'pacaembu-Ultra';
+    src: url('../src/fonts/Pacaembu-TrialNaipeFoundry/ttf/Pacaembu-Ultra-Trial.ttf') format('TrueType');
+}
+@font-face {
+    font-family: 'pacaembu-Regular';
+    src: url('../src/fonts/Pacaembu-TrialNaipeFoundry/ttf/Pacaembu-Regular-Trial.ttf') format('TrueType');
+}
+@font-face {
+    font-family: 'pacaembu-Light';
+    src: url('../src/fonts/Pacaembu-TrialNaipeFoundry/ttf/Pacaembu-Light-Trial.ttf') format('TrueType');
+}
+h1 {
+    font-family: pacaembu-Ultra, sans-serif;
+}
+h3 {
+    font-family: pacaembu-Regular, sans-serif;
+}
+.footerLightText{
+    font-family: pacaembu-Light, sans-serif;
+    ;
+    font-size: small;
+}

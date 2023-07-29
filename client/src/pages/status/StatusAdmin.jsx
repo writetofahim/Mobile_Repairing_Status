@@ -280,9 +280,9 @@ const StatusAdmin = ({
           </div>
           <div className={isDisable ? "opacity-50 pointer-events-none" : ""}>
             {/* Invoice */}
-            <h3 className="text-center text-3xl text-gray-700 font-bold my-3">
+            <h1 className="text-center text-3xl text-gray-700 font-bold my-3">
               Invoice
-            </h3>
+            </h1>
             <div className=" flex md:flex-row gap-10 justify-center flex-col text-gray-900 ">
               {/* generate */}
               <div className=" md:w-1/2 max-w-[300px] ">
