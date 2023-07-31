@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white print:hidden">
       <div className="footerLightText container mx-auto flex gap-5 border-t py-5">
         <div>
           <h3>Why us</h3>

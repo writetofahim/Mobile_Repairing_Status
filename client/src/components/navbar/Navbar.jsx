@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed backdrop-blur-xl bg-white transition-all duration-500 print:hidden top-0 z-40  w-full ${
+      className={`print:hidden fixed backdrop-blur-xl bg-white transition-all duration-500 top-0 z-40  w-full ${
         background ? "shadow-md bg-white/70" : ""
       }`}
     >

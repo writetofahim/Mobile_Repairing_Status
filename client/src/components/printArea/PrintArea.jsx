@@ -2,8 +2,8 @@ import React from "react";
 
 const PrintArea = ({ printData, total }) => {
   return (
-    <div className="absolute top-0 left-1/2 -translate-x-1/2">
-      <div className="text-center">
+    <div className=" ">
+      <div className="text-center flex flex-col max-w-[600px] mx-auto">
         <h3 className="font-semibold">Taibul Store</h3>
         <p className="text-sm">Address: Rome, Italy</p>
         <p className="text-sm">Phone: +39xxxx-xxxx</p>
